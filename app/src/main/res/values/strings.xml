@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MadridShops</string>
+    <string name="home_title">MadridShops {fa-heart}</string>
+    <string name="home_shop">{fa-shopping-bag}</string>
+    <string name="home_activities">{fa-binoculars}</string>
+    <string name="reintentar">Reintentar</string>
+    <string name="salir">Salir</string>
+    <string name="GOOGLE_MAPS_API_KEY">AIzaSyDqaNstFtpvOmDvmazSg3du7Euq-BxJAA0</string>
+    <string name="error_conexión">Error de conexión</string>
+    <string name="error">Error</string>
+</resources>
