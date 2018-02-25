@@ -11,6 +11,8 @@ interface Entertainment: Serializable {
     val image: String
     val latitude: Double
     val longitude: Double
+    val openingHours: String
+    val description: String
 }
 
 

@@ -10,7 +10,9 @@ data class Activity(override val id: Int,
                 override val logo: String,
                 override val image: String,
                 override val latitude: Double,
-                override val longitude: Double): Serializable, Entertainment
+                override val longitude: Double,
+                    override val openingHours: String,
+                    override val description: String): Serializable, Entertainment
 
 
 

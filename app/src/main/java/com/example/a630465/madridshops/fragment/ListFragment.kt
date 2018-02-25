@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.a630465.madridshops.R
 import com.example.a630465.madridshops.adapter.EntertainmentAdapter
+import com.example.domain.model.Entertainment
 import com.example.domain.model.Entertainments
-import com.keepcoding.madridshops.domain.model.Shop
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 
@@ -30,6 +30,7 @@ class ListFragment : Fragment() {
     }
 
     fun setData(entertainments: Entertainments) {
+        this.entertainments = entertainments
 
         shopRecyclerView = root.findViewById(R.id.recycler_view) as RecyclerView
         shopRecyclerView.layoutManager = GridLayoutManager(activity, 1)
@@ -43,12 +44,12 @@ class ListFragment : Fragment() {
     }
 
     private fun setListenerToAdapter(adapter: EntertainmentAdapter) {
-        /*adapter.onClickListener = View.OnClickListener { v: View? ->
+        adapter.onClickListener = View.OnClickListener { v: View? ->
             val position = shopRecyclerView.getChildAdapterPosition(v)
-            val shop = shops?.get(position)
+            val entertainment = entertainments?.get(position)
 
-            onClickSelectedEntertainment?.showEntertainmentDetail(shop!!)
-        }*/
+            onClickSelectedEntertainment?.showEntertainmentDetail(entertainment!!)
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -66,6 +67,6 @@ class ListFragment : Fragment() {
     }
 
     interface OnClickSelectedEntertainment {
-        fun showEntertainmentDetail(shop: Shop)
+        fun showEntertainmentDetail(entertainment: Entertainment)
     }
 }

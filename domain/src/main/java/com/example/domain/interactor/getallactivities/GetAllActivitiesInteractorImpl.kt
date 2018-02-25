@@ -38,7 +38,9 @@ class GetAllActivitiesInteractorImpl(context: Context) : GetAllActivitiesInterac
                         it.logo,
                         it.img,
                         (it.latitude.replace(",", "").replace(" ", "")).toDouble(),
-                        (it.longitude.replace(",", "").replace(" ", "")).toDouble())
+                        (it.longitude.replace(",", "").replace(" ", "")).toDouble(),
+                        it.openingHours,
+                        it.description)
 
                 tempList.add(activity)
             }

@@ -8,26 +8,27 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.a630465.madridshops.R
 import com.example.a630465.madridshops.fragment.ListFragment
 import com.example.a630465.madridshops.utils.ACTIVITIES
 import com.example.a630465.madridshops.utils.INTENT_GO_TO
 import com.example.a630465.madridshops.utils.SHOPS
+import com.example.domain.model.Entertainment
 import com.example.domain.model.Entertainments
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.keepcoding.madridshops.domain.interactor.ErrorCompletion
 import com.keepcoding.madridshops.domain.interactor.SuccessCompletion
 import com.keepcoding.madridshops.domain.interactor.getallshops.GetAllActivitiesInteractor
 import com.keepcoding.madridshops.domain.interactor.getallshops.GetAllActivitiesInteractorImpl
 import com.keepcoding.madridshops.domain.interactor.getallshops.GetAllShopsInteractor
 import com.keepcoding.madridshops.domain.interactor.getallshops.GetAllShopsInteractorImpl
-import com.keepcoding.madridshops.domain.model.Shop
+import com.keepcoding.madridshops.router.Router
 import kotlinx.android.synthetic.main.activity_list.*
 
 
@@ -43,14 +44,16 @@ class ListActivity : AppCompatActivity(), ListFragment.OnClickSelectedEntertainm
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-        setSupportActionBar(toolbar)
 
         listFragment = fragmentManager.findFragmentById(R.id.fragment_list) as ListFragment
+
 
         downloadData()
     }
 
     private fun downloadData() {
+
+        loader_indicator.visibility = View.VISIBLE
 
         if (GO_TO == SHOPS){
 
@@ -58,15 +61,12 @@ class ListActivity : AppCompatActivity(), ListFragment.OnClickSelectedEntertainm
             getAllShopsInteractor.execute(object: SuccessCompletion<Entertainments> {
                 override fun successCompletion(entertainments: Entertainments) {
 
-                    listFragment.setData(entertainments)
-                    initializeMap(entertainments)
+                    successToLoadData(entertainments)
                 }
-
             }, object: ErrorCompletion {
                 override fun errorCompletion(errorMessage: String) {
 
-                    context?.let { Toast.makeText(it,"Fallo de conexión", Toast.LENGTH_LONG).show() }
-                    downloadData()
+                    errorToLoadData()
                 }
             })
 
@@ -76,20 +76,29 @@ class ListActivity : AppCompatActivity(), ListFragment.OnClickSelectedEntertainm
             getAllActivitiesInteractor.execute(object: SuccessCompletion<Entertainments> {
                 override fun successCompletion(entertainments: Entertainments) {
 
-                    listFragment.setData(entertainments)
-                    initializeMap(entertainments)
+                    successToLoadData(entertainments)
                 }
-
             }, object: ErrorCompletion {
                 override fun errorCompletion(errorMessage: String) {
 
-                    context?.let { Toast.makeText(it,"Fallo de conexión", Toast.LENGTH_LONG).show() }
-                    downloadData()
+                    errorToLoadData()
                 }
             })
 
         }
 
+    }
+
+    private fun successToLoadData(entertainments: Entertainments) {
+        listFragment.setData(entertainments)
+        initializeMap(entertainments)
+        loader_indicator.visibility = View.GONE
+    }
+
+    private fun errorToLoadData() {
+        loader_indicator.visibility = View.GONE
+        context?.let { Toast.makeText(it, "Fallo de conexión", Toast.LENGTH_LONG).show() }
+        downloadData()
     }
 
     private fun initializeMap(entertainments: Entertainments) {
@@ -147,8 +156,8 @@ class ListActivity : AppCompatActivity(), ListFragment.OnClickSelectedEntertainm
         map.addMarker(MarkerOptions().position(LatLng(latitude, longitude)).title(title))
     }
 
-    override fun showEntertainmentDetail(shop: Shop) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showEntertainmentDetail(entertainment: Entertainment) {
+        Router().showDetailEntertainment(this, entertainment)
     }
 
 }

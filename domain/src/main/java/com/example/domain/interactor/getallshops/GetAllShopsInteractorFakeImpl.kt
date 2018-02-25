@@ -42,7 +42,7 @@ class GetAllShopsInteractorFakeImpl: GetAllActivitiesInteractor {
         val list = ArrayList<Entertainment>()
 
         for (i in 0..100) {
-            val shop = Shop(i, address = "Shop " + i, name = "Address " + i, logo = "" + i, image = "", latitude = 0.0, longitude = 0.0)
+            val shop = Shop(i, address = "Shop " + i, name = "Address " + i, logo = "" + i, image = "", latitude = 0.0, longitude = 0.0, openingHours = "", description = "")
             list.add(shop)
         }
 

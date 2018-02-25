@@ -1,5 +1,6 @@
 package com.example.a630465.madridshops.adapter
 
+import android.os.Build
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View

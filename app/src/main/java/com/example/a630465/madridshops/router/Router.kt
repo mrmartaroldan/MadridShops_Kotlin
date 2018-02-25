@@ -2,14 +2,10 @@ package com.keepcoding.madridshops.router
 
 import android.content.Intent
 import com.example.a630465.madridshops.activity.MainActivity
-import com.example.a630465.madridshops.activity.ShopDetailActivity
+import com.example.a630465.madridshops.activity.DetailActivity
 import com.example.a630465.madridshops.activity.ListActivity
-import com.example.a630465.madridshops.utils.ACTIVITIES
-import com.example.a630465.madridshops.utils.INTENT_GO_TO
-import com.example.a630465.madridshops.utils.INTENT_SHOP_DETAIL
-import com.example.a630465.madridshops.utils.SHOPS
+import com.example.a630465.madridshops.utils.*
 import com.example.domain.model.Entertainment
-import com.keepcoding.madridshops.domain.model.Shop
 
 class Router {
     fun navigateFromMainActivityToShopsList(main: MainActivity) {
@@ -20,8 +16,8 @@ class Router {
         main.startActivity(Intent(main, ListActivity::class.java).putExtra(INTENT_GO_TO, ACTIVITIES))
     }
 
-    fun navigateFromShopActivityToShopDetailActivity(listActivity: ListActivity, entertainment: Entertainment){
-        listActivity.startActivity(Intent(listActivity, ShopDetailActivity::class.java).putExtra(INTENT_SHOP_DETAIL, entertainment))
+    fun showDetailEntertainment(listActivity: ListActivity, entertainment: Entertainment){
+        listActivity.startActivity(Intent(listActivity, DetailActivity::class.java).putExtra(INTENT_DETAIL, entertainment))
     }
 
 }
