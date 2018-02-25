@@ -1,51 +1,51 @@
 package com.keepcoding.madridshops.domain.interactor.getallshops
 
+import com.example.domain.model.Entertainment
+import com.example.domain.model.Entertainments
 import com.keepcoding.madridshops.domain.interactor.ErrorClosure
 import com.keepcoding.madridshops.domain.interactor.ErrorCompletion
 import com.keepcoding.madridshops.domain.interactor.SuccessClosure
 import com.keepcoding.madridshops.domain.interactor.SuccessCompletion
 import com.keepcoding.madridshops.domain.model.Shop
-import com.keepcoding.madridshops.domain.model.Shops
 import java.util.*
 
-class GetAllShopsInteractorFakeImpl: GetAllShopsInteractor {
-    override fun execute(success: SuccessCompletion<Shops>, error: ErrorCompletion) {
+class GetAllShopsInteractorFakeImpl: GetAllActivitiesInteractor {
+    override fun execute(success: SuccessCompletion<Entertainments>, error: ErrorCompletion) {
         var allOk = true
 
         // connect to the repository
 
         if (allOk) {
-            val shops = createFakeListOfShops()
+            val entertainments = createFakeListOfEntertainments()
 
-            success.successCompletion(shops)
+            success.successCompletion(entertainments)
         } else {
             error.errorCompletion("Error while accessing the Repository")
         }
     }
 
-    fun execute(success: SuccessClosure, error: ErrorClosure) {
+    fun execute(success: SuccessClosure<Entertainments>, error: ErrorClosure) {
         var allOk = true
 
         // connect to the repository
 
         if (allOk) {
-            val shops = createFakeListOfShops()
+            val entertainments = createFakeListOfEntertainments()
 
-            success(shops)
+            success(entertainments)
         } else {
             error("Error while accessing the Repository")
         }
     }
 
-    fun createFakeListOfShops(): Shops {
-        val list = ArrayList<Shop>()
+    fun createFakeListOfEntertainments(): Entertainments {
+        val list = ArrayList<Entertainment>()
 
         for (i in 0..100) {
-            val shop = Shop(i, address = "Shop " + i, name = "Address " + i, logo = "" + i, latitude = 0.0, longitude = 0.0)
+            val shop = Shop(i, address = "Shop " + i, name = "Address " + i, logo = "" + i, image = "", latitude = 0.0, longitude = 0.0)
             list.add(shop)
         }
 
-        val shops = Shops(list)
-        return shops
+        return Entertainments(list)
     }
 }

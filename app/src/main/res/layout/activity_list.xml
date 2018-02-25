@@ -16,6 +16,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/container_shops"/>
+    <include layout="@layout/container"/>
 
 </android.support.constraint.ConstraintLayout>

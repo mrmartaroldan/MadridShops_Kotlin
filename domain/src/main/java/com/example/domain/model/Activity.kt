@@ -4,7 +4,7 @@ import com.example.domain.model.Entertainment
 import java.io.Serializable
 import java.util.*
 
-data class Shop(override val id: Int,
+data class Activity(override val id: Int,
                 override val name: String,
                 override val address: String,
                 override val logo: String,
@@ -15,25 +15,25 @@ data class Shop(override val id: Int,
 
 
 
-class Shops(val shops: MutableList<Shop>): Aggregate<Shop> {
+class Activities(val activities: MutableList<Activity>): Aggregate<Activity> {
 
-    override fun count(): Int = shops.size
+    override fun count(): Int = activities.size
 
-    override fun all(): List<Shop> = shops
+    override fun all(): List<Activity> = activities
 
-    override fun get(position: Int): Shop {
-        return shops.get(position)
+    override fun get(position: Int): Activity {
+        return activities.get(position)
     }
 
-    override fun add(element: Shop) {
-        shops.add(element)
+    override fun add(element: Activity) {
+        activities.add(element)
     }
 
     override fun delete(position: Int) {
-        shops.removeAt(position)
+        activities.removeAt(position)
     }
 
-    override fun delete(element: Shop) {
-        shops.remove(element)
+    override fun delete(element: Activity) {
+        activities.remove(element)
     }
 }

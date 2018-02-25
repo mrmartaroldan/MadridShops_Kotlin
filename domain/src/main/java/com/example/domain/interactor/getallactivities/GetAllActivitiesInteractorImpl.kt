@@ -5,32 +5,34 @@ import com.example.domain.model.Entertainment
 import com.example.domain.model.Entertainments
 import com.keepcoding.madridshops.domain.interactor.ErrorCompletion
 import com.keepcoding.madridshops.domain.interactor.SuccessCompletion
+import com.keepcoding.madridshops.domain.model.Activity
 import com.keepcoding.madridshops.domain.model.Shop
 import com.keepcoding.madridshops.repository.Repository
 import com.keepcoding.madridshops.repository.RepositoryImpl
+import com.keepcoding.madridshops.repository.model.ActivityEntity
 import com.keepcoding.madridshops.repository.model.ShopEntity
 import java.lang.ref.WeakReference
 import java.util.*
 
-class GetAllShopsInteractorImpl(context: Context) : GetAllShopsInteractor {
+class GetAllActivitiesInteractorImpl(context: Context) : GetAllActivitiesInteractor {
 
     private val weakContext = WeakReference<Context>(context)
     private val repository: Repository = RepositoryImpl(weakContext.get() !!)
 
     override fun execute(success: SuccessCompletion<Entertainments>, error: ErrorCompletion) {
-        repository.getAllShops(success = {
-            val shops: Entertainments = entityMapper(it)
-            success.successCompletion(shops)
+        repository.getAllActivities(success = {
+            val activities: Entertainments = entityMapper(it)
+            success.successCompletion(activities)
         }, error = {
             error(it)
         })
     }
 
-    private fun entityMapper(list: List<ShopEntity>): Entertainments {
+    private fun entityMapper(list: List<ActivityEntity>): Entertainments {
         val tempList = ArrayList<Entertainment>()
         list.forEach {
             if(it.latitude.length !=0 && it.longitude.length !=0) {
-                val shop = Shop(it.id.toInt(),
+                val activity = Activity(it.id.toInt(),
                         it.name,
                         it.address,
                         it.logo,
@@ -38,12 +40,12 @@ class GetAllShopsInteractorImpl(context: Context) : GetAllShopsInteractor {
                         (it.latitude.replace(",", "").replace(" ", "")).toDouble(),
                         (it.longitude.replace(",", "").replace(" ", "")).toDouble())
 
-                tempList.add(shop)
+                tempList.add(activity)
             }
         }
 
-        val shops = Entertainments(tempList)
-        return shops
+        val activities = Entertainments(tempList)
+        return activities
 
     }
 }

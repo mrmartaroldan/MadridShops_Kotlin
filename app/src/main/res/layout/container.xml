@@ -15,15 +15,15 @@
         android:id="@+id/activity_main_map_fragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:layout_weight="1"
         />
 
     <fragment
-        android:id="@+id/fragment_shop_list"
-        android:name="com.example.a630465.madridshops.fragment.ShopListFragment"
+        android:id="@+id/fragment_list"
+        android:name="com.example.a630465.madridshops.fragment.ListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:layout_weight="1"
         />
 

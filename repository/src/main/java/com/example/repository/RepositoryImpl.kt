@@ -5,6 +5,8 @@ import com.example.repository.BuildConfig
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.keepcoding.madridshops.repository.cache.Cache
 import com.keepcoding.madridshops.repository.cache.CacheImpl
+import com.keepcoding.madridshops.repository.model.ActivitiesResponseEntity
+import com.keepcoding.madridshops.repository.model.ActivityEntity
 import com.keepcoding.madridshops.repository.model.ShopEntity
 import com.keepcoding.madridshops.repository.model.ShopsResponseEntity
 import com.keepcoding.madridshops.repository.network.GetJsonManager
@@ -26,11 +28,25 @@ class RepositoryImpl(context: Context): Repository {
             }, error = {
                 // if no shops in cache --> network
 
-                populateCache(success, error)
+                populateCacheShop(success, error)
             })
     }
 
-    private fun populateCache(success: (shops: List<ShopEntity>) -> Unit, error: (errorMessage: String) -> Unit) {
+    override fun getAllActivities(success: (activities: List<ActivityEntity>) -> Unit, error: (errorMessage: String) -> Unit) {
+        // read all Shops from cache
+        cache.getAllActivities(
+                success = {
+                    // if there's shops in cache --> return them
+
+                    success(it)
+                }, error = {
+            // if no shops in cache --> network
+
+            populateCacheActivity(success, error)
+        })
+    }
+
+    private fun populateCacheShop(success: (shops: List<ShopEntity>) -> Unit, error: (errorMessage: String) -> Unit) {
         // perform network request
 
         val jsonManager: GetJsonManager = GetJsonManagerVolleyImpl(weakContext.get() !!)
@@ -46,6 +62,33 @@ class RepositoryImpl(context: Context): Repository {
                 }
                 // store result in cache
                 cache.saveAllShops(responseEntity.result, success = {
+                    success(responseEntity.result)
+                }, error = {
+                    error("Something happened on the way to heaven!")
+                })
+            }
+        }, error = object: ErrorCompletion {
+            override fun errorCompletion(errorMessage: String) {
+            }
+        })
+    }
+
+    private fun populateCacheActivity(success: (activities: List<ActivityEntity>) -> Unit, error: (errorMessage: String) -> Unit) {
+        // perform network request
+
+        val jsonManager: GetJsonManager = GetJsonManagerVolleyImpl(weakContext.get() !!)
+        jsonManager.execute(BuildConfig.MADRID_ACTIVITIES_SERVER_URL, success =  object: SuccessCompletion<String> {
+            override fun successCompletion(e: String) {
+                val parser = JsonEntitiesParser()
+                var responseEntity: ActivitiesResponseEntity
+                try {
+                    responseEntity = parser.parse<ActivitiesResponseEntity>(e)
+                } catch (e: InvalidFormatException) {
+                    error("ERROR PARSING")
+                    return
+                }
+                // store result in cache
+                cache.saveAllActivities(responseEntity.result, success = {
                     success(responseEntity.result)
                 }, error = {
                     error("Something happened on the way to heaven!")

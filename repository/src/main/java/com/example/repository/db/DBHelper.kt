@@ -18,11 +18,12 @@ internal class DBHelper(context: Context?, name: String?, factory: SQLiteDatabas
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        DBConstants.CREATE_DATABASE_SCRIPTS.forEach { db?.execSQL(it) }
+        DBConstantsShop.CREATE_DATABASE_SCRIPTS.forEach { db?.execSQL(it) }
+        DBConstantsActivity.CREATE_DATABASE_SCRIPTS.forEach { db?.execSQL(it) }
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        val updateChangesFromv1Tov2 = {
+/*        val updateChangesFromv1Tov2 = {
 
         }
 
@@ -41,7 +42,7 @@ internal class DBHelper(context: Context?, name: String?, factory: SQLiteDatabas
 
         if (oldVersion == 2 && newVersion == 3) {
             updateChangesFromv2Tov3()
-        }
+        }*/
     }
 }
 

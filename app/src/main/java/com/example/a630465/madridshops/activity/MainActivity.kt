@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         tv_shops.visibility = View.VISIBLE
         tv_activities.visibility = View.VISIBLE
 
-        tv_shops.setOnClickListener { Router().navigateFromMainActivityToShopsActivity(this) }
-        tv_activities.setOnClickListener { Router().navigateFromMainActivityToActivitiesActivity(this) }
+        tv_shops.setOnClickListener { Router().navigateFromMainActivityToShopsList(this) }
+        tv_activities.setOnClickListener { Router().navigateFromMainActivityToActivitiesList(this) }
     }
 }

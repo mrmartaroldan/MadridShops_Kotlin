@@ -1,7 +1,7 @@
 package com.keepcoding.madridshops.repository.db
 
 
-internal object DBConstants {
+internal object DBConstantsShop {
     val TABLE_SHOP = "SHOP"
 
     // Table field constants
